@@ -2,6 +2,7 @@ package Client.GUI;
 
 import Client.Client;
 import Client.GUI.Listener.DoubleClickAdapter;
+import Client.GUI.Listener.EmojiListener;
 import Client.GUI.Listener.LogoutListener;
 import Client.GUI.Listener.SendBroadCastListener;
 
@@ -66,6 +67,13 @@ public class MainUI extends JFrame {
         chatScroll = new JScrollPane(chatArea);
         chatPanel.add(chatScroll);
 
+        JPanel emojiPanel = new JPanel();
+        emojiPanel.setBorder(BorderFactory.createLoweredBevelBorder());
+        emojiPanel.setBackground(Color.white);
+        emojiPanel.setLayout(new GridLayout(0, 10));
+
+        chatPanel.add(emojiPanel);
+
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS));
         chatInputField = new JTextField();
@@ -80,6 +88,7 @@ public class MainUI extends JFrame {
         inputPanel.add(new JScrollPane(chatInputField));
         inputPanel.add(sendButton);
 
+        createEmojiButtonsForPanel(emojiPanel);
         chatPanel.add(inputPanel);
     }
 
@@ -155,6 +164,15 @@ public class MainUI extends JFrame {
         if (offline != null) {
             for (String user : offline)
                 listOfflineUserModel.addElement(user);
+        }
+    }
+
+    private void createEmojiButtonsForPanel(JPanel panel) {
+
+        for (String emoji : Client.emojiList) {
+            JButton button = new JButton(emoji);
+            button.addActionListener(new EmojiListener(chatInputField, emoji));
+            panel.add(button);
         }
     }
 }

@@ -1,12 +1,15 @@
 package Client.GUI;
 
 import Client.Client;
+import Client.GUI.Listener.EmojiListener;
 import Client.GUI.Listener.SendFileListener;
 import Client.GUI.Listener.SendMessageListener;
 import Client.Utilities.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
@@ -42,8 +45,9 @@ public class ChatBoxGUI extends JFrame {
      */
     public void createAndShowGUI() {
 
-        setDefaultLookAndFeelDecorated(true);
+        JFrame.setDefaultLookAndFeelDecorated(false);
         setTitle("Chat");
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         createContentPane();
         setContentPane(mainPanel);
@@ -92,6 +96,12 @@ public class ChatBoxGUI extends JFrame {
         transferFileButton.addActionListener(new SendFileListener(bar, desName, this));
         mainPanel.add(utilityPanel);
 
+        JPanel emojiPanel = new JPanel();
+        emojiPanel.setBorder(BorderFactory.createLoweredBevelBorder());
+        emojiPanel.setBackground(Color.white);
+        emojiPanel.setLayout(new GridLayout(0, 10));
+        mainPanel.add(emojiPanel);
+
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS));
         chatInputField = new JTextField();
@@ -105,6 +115,7 @@ public class ChatBoxGUI extends JFrame {
         inputPanel.add(new JScrollPane(chatInputField));
         inputPanel.add(sendButton);
 
+        createEmojiButtonsForPanel(emojiPanel);
         mainPanel.add(inputPanel);
     }
 
@@ -116,5 +127,14 @@ public class ChatBoxGUI extends JFrame {
 
     public JProgressBar getBar() {
         return bar;
+    }
+
+    private void createEmojiButtonsForPanel(JPanel panel) {
+
+        for (String emoji : Client.emojiList) {
+            JButton button = new JButton(emoji);
+            button.addActionListener(new EmojiListener(chatInputField, emoji));
+            panel.add(button);
+        }
     }
 }

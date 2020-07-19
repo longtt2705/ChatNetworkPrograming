@@ -6,7 +6,9 @@ import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Client.GUI
@@ -44,11 +46,14 @@ public class Client {
 
     public static String currentAccount;
     public static JFrame currentFrame;
+    public static List<String> emojiList;
 
-    public static void main(String[] arg) throws IOException {
+    private Client() {}
 
-        InputStream is=socket.getInputStream();
-        BufferedReader br= new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+    public static void main(String[] arg) {
+
+        // Initialize Emoji List
+        initializeEmojiList();
 
         // Create UI
         invokeGUI(ViewLevel.LOGIN, null);
@@ -249,6 +254,33 @@ public class Client {
 
     public static Socket getSocket() {
         return socket;
+    }
+
+    public static void initializeEmojiList() {
+
+        emojiList = new ArrayList<>();
+
+        emojiList.add("\uD83D\uDE00");
+        emojiList.add("\uD83D\uDE18");
+        emojiList.add("\uD83D\uDE44");
+        emojiList.add("\uD83D\uDE04");
+        emojiList.add("\uD83D\uDE36");
+        emojiList.add("\uD83D\uDE06");
+        emojiList.add("\uD83D\uDE05");
+        emojiList.add("\uD83D\uDE0F");
+        emojiList.add("\uD83D\uDE02");
+        emojiList.add("\uD83D\uDE42");
+        emojiList.add("\uD83D\uDE09");
+        emojiList.add("\uD83D\uDE0A");
+        emojiList.add("\uD83D\uDE07");
+        emojiList.add("\uD83D\uDE0D");
+        emojiList.add("\uD83D\uDE18");
+        emojiList.add("\uD83D\uDE17");
+        emojiList.add("\uD83D\uDE1A");
+        emojiList.add("\uD83D\uDE0B");
+        emojiList.add("\uD83D\uDE10");
+        emojiList.add("\uD83D\uDE1B");
+
     }
 }
 

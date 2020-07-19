@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.List;
 
 /**
  * Client.Utilities
@@ -58,19 +59,5 @@ public class Utilities {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static byte[] mergeByteArrays(byte[] a, byte[] b) {
-
-
-        int aLen = a.length;
-        int bLen = b.length;
-
-        byte[] result = new byte[aLen + bLen];
-
-        System.arraycopy(a, 0, result, 0, aLen);
-        System.arraycopy(b, 0, result, aLen, bLen);
-
-        return result;
     }
 }

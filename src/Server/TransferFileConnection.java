@@ -72,63 +72,65 @@ public class TransferFileConnection {
     public void freeStream() throws IOException {
         receiverWriter.close();
     }
-}
 
-class CountDownTime extends Thread {
+    // Count down time class
+    static class CountDownTime extends Thread {
 
-    private final int timeToLive;
-    private final TransferFileConnection connection;
+        private final int timeToLive;
+        private final TransferFileConnection connection;
 
-    public CountDownTime(int timeToLive, TransferFileConnection connection) {
-        this.timeToLive = timeToLive;
-        this.connection = connection;
-    }
+        public CountDownTime(int timeToLive, TransferFileConnection connection) {
+            this.timeToLive = timeToLive;
+            this.connection = connection;
+        }
 
-    @Override
-    public void run() {
-        try {
+        @Override
+        public void run() {
+            try {
 
-            Thread.sleep(timeToLive * 1000); // secs
-            connection.endTimeToLive();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
+                Thread.sleep(timeToLive * 1000); // secs
+                connection.endTimeToLive();
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-}
 
-class SocketStatusTracker extends Thread {
+    // Socket Status Tracker class
+    static class SocketStatusTracker extends Thread {
 
-    Socket sendUser;
-    Socket receiveUser;
-    DataOutputStream receiverWriter;
-    DataOutputStream senderWriter;
-    TransferFileConnection connection;
+        Socket sendUser;
+        Socket receiveUser;
+        DataOutputStream receiverWriter;
+        DataOutputStream senderWriter;
+        TransferFileConnection connection;
 
-    public SocketStatusTracker(Socket sendUser, Socket receiveUser, DataOutputStream receiverWriter, DataOutputStream senderWriter, TransferFileConnection connection) {
-        this.sendUser = sendUser;
-        this.receiveUser = receiveUser;
-        this.receiverWriter = receiverWriter;
-        this.senderWriter = senderWriter;
-        this.connection = connection;
-    }
+        public SocketStatusTracker(Socket sendUser, Socket receiveUser, DataOutputStream receiverWriter, DataOutputStream senderWriter, TransferFileConnection connection) {
+            this.sendUser = sendUser;
+            this.receiveUser = receiveUser;
+            this.receiverWriter = receiverWriter;
+            this.senderWriter = senderWriter;
+            this.connection = connection;
+        }
 
-    @Override
-    public void run() {
-        do {
-            if (sendUser.isClosed() || receiveUser.isClosed()) {
-                try {
+        @Override
+        public void run() {
+            do {
+                if (sendUser.isClosed() || receiveUser.isClosed()) {
+                    try {
 
-                    if (sendUser.isClosed())
-                        receiveUser.close();
+                        if (sendUser.isClosed())
+                            receiveUser.close();
 
-                    if (receiveUser.isClosed())
-                        sendUser.close();
-                    break;
-                } catch (IOException e) {
-                    e.printStackTrace();
+                        if (receiveUser.isClosed())
+                            sendUser.close();
+                        break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        } while (true);
+            } while (true);
 
+        }
     }
 }

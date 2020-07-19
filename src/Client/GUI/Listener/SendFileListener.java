@@ -31,6 +31,9 @@ public class SendFileListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if (bar.getValue() > 0)
+            return;
+
         // create an object of JFileChooser class
         JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         j.setAcceptAllFileFilterUsed(true);

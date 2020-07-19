@@ -36,6 +36,7 @@ public class Server {
     public static final String ESTABLISH_SEND_FILE = "ESTABLISH_SEND_FILE";
     public static final String ESTABLISH_RECEIVE_FILE = "ESTABLISH_RECEIVE_FILE";
 
+    private Server() {}
 
     public static void main(String[] args) {
 
